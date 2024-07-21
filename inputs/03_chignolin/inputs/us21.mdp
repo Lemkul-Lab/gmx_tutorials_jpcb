@@ -1,0 +1,61 @@
+title                   = Umbrella sampling 
+; Run parameters
+integrator              = md        ; leap-frog integrator
+nsteps                  = 25000000  ; 2 * 25000000 = 50000 ps (50 ns)
+dt                      = 0.002     ; 2 fs
+; Output control
+nstxout                 = 0         ; no .trr output 
+nstvout                 = 0         ; no .trr output 
+nstenergy               = 5000      ; save energies every 10 ps
+nstlog                  = 5000      ; update log file every 10 ps
+nstxout-compressed      = 5000      ; save coordinates every 10 ps
+; Bond parameters
+continuation            = yes       ; Restarting after NVT 
+constraint_algorithm    = lincs     ; holonomic constraints 
+constraints             = h-bonds   ; bonds involving H are constrained
+lincs_iter              = 1         ; accuracy of LINCS
+lincs_order             = 4         ; also related to accuracy
+; Nonbonded settings 
+cutoff-scheme           = Verlet    ; Buffered neighbor searching
+vdwtype                 = cutoff
+vdw-modifier            = force-switch
+ns_type                 = grid      ; search neighboring grid cells
+nstlist                 = 10        ; 20 fs, largely irrelevant with Verlet scheme
+rvdw-switch             = 1.0       ; short-range van der Waals cutoff (in nm)
+rvdw                    = 1.2
+rlist                   = 1.4
+dispcorr                = no
+; Electrostatics
+coulombtype             = PME       ; Particle Mesh Ewald for long-range electrostatics
+rcoulomb                = 1.2       ; short-range electrostatic cutoff (in nm)
+pme_order               = 4         ; cubic interpolation
+fourierspacing          = 0.16      ; grid spacing for FFT
+; Temperature coupling is on
+tcoupl                  = V-rescale             ; modified Berendsen thermostat
+tc-grps                 = System 
+tau_t                   = 1.0
+ref_t                   = 298 
+; Pressure coupling is on
+pcoupl                  = C-rescale 
+pcoupltype              = isotropic             ; uniform scaling of box vectors
+tau_p                   = 5.0                   ; time constant, in ps
+ref_p                   = 1.0                   ; reference pressure, in bar
+compressibility         = 4.5e-5                ; isothermal compressibility of water, bar^-1
+; Periodic boundary conditions
+pbc                     = xyz       ; 3-D PBC
+; Velocity generation
+gen_vel                 = no        ; Velocity generation is off 
+; Pull options
+pull                    = yes
+pull-ngroups            = 2         ; two groups form one reaction coordinate
+pull-ncoords            = 1         ; one reaction coordinate/bias being applied
+pull-group1-name        = Gly1_CA
+pull-group2-name        = Gly10_CA
+pull-coord1-type        = umbrella  ; harmonic potential
+pull-coord1-geometry    = distance
+pull-coord1-dim         = Y Y Y     ; apply bias in all three Cartesian directions
+pull-coord1-groups      = 1 2
+pull-coord1-start       = no
+pull-coord1-init        = 2.6 
+pull-coord1-rate        = 0.0
+pull-coord1-k           = 1000

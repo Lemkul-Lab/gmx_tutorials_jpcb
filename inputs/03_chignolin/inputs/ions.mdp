@@ -1,0 +1,15 @@
+; ions.mdp - used as input into grompp to generate ions.tpr
+; For generating ions, this input only has to be syntactically correct
+; as the actual settings are not used for any physical process 
+integrator  = steep
+emtol       = 1000.0
+emstep      = 0.01
+nsteps      = 50000
+
+nstlist         = 1
+cutoff-scheme	= Verlet
+ns_type         = grid
+coulombtype     = cutoff
+rcoulomb        = 1.2
+rvdw            = 1.2
+pbc             = xyz

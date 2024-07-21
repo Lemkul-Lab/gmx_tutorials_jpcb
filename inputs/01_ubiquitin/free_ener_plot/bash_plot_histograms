@@ -1,0 +1,10 @@
+echo "Calculate Histogram"
+perl calc_2d_histogram.pl ../2dproj.dat -12 0.5 12  -12 0.5 12
+echo "Plot histogram"
+gnuplot plot_histogram.m
+echo "Plot normalized histogram"
+gnuplot plot_norm_histogram.m
+echo "Plot Free energy"
+gnuplot plot_free_ener.m
+convert -trim free_ener_d1_d2.png free_ener_d1_d2.png
+
